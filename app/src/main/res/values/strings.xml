@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">ConfirmationPrompt</string>
+    <string name="isConfirmationPromptSupported">Is Confirmation Prompt Supported:</string>
+    <string name="promptText">promptText:</string>
+    <string name="extraData">extraData:</string>
+    <string name="defaultPromptText">My first ConfirmationPrompt!</string>
+    <string name="defaultExtraData">can be any data...</string>
+</resources>

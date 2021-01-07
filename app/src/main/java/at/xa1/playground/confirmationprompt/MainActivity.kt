@@ -6,22 +6,17 @@ import androidx.appcompat.app.AppCompatActivity
 import at.xa1.playground.confirmationprompt.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+
+    lateinit var binding: ActivityMainBinding
+    lateinit var logView: LogView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         with(binding) {
-            val logView = LogView(logTextView, logScrollView)
-
-            fun showConfirmationPrompt() {
-                showConfirmationPrompt(
-                    context = this@MainActivity,
-                    promptText = editTextPromptText.text.toString(),
-                    extraDataString = editTextExtraData.text.toString(),
-                    logView = logView
-                )
-            }
+            logView = LogView(logTextView, logScrollView)
 
             buttonShow.setOnClickListener {
                 showConfirmationPrompt()
@@ -32,15 +27,38 @@ class MainActivity : AppCompatActivity() {
                 showConfirmationPrompt()
                 true
             }
-
-            logView.log(
-                "💡 Hey!\n" +
-                    "is ConfirmationPrompt supported on your device: " +
-                    "${ConfirmationPrompt.isSupported(this@MainActivity)}\n" +
-                    "press button show ConfirmationPrompt once, " +
-                    "long press to call showConfirmationPrompt twice.\n"+
-                    "---"
-            )
         }
+
+        showWelcomeMessage()
+    }
+
+    private fun showWelcomeMessage() {
+        logView.log(
+            "💡 Hey!\n" +
+                "is ConfirmationPrompt supported on your device: " +
+                "${ConfirmationPrompt.isSupported(this@MainActivity)}\n" +
+                "press button show ConfirmationPrompt once, " +
+                "long press to call showConfirmationPrompt twice.\n"+
+                "---"
+        )
+    }
+
+    private fun showConfirmationPrompt() {
+        showConfirmationPrompt(
+            context = this@MainActivity,
+            promptText = binding.editTextPromptText.text.toString(),
+            extraDataString = binding.editTextExtraData.text.toString(),
+            logView = logView
+        )
+    }
+
+    override fun onPause() {
+        super.onPause()
+        logView.log("Activity.onPause")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        logView.log("Activity.onStop")
     }
 }
